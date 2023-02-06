@@ -1,10 +1,13 @@
-COQ_FILES := $(wildcard *.v) $(wildcard Learn/*.v)
+COQ_FILES := $(wildcard src/*.v)
 VO_FILES := $(COQ_FILES:.v=.vo)
 
 all: $(VO_FILES)
 
-NoInit.vo: NoInit.v
-	coqc -q -noinit $< -o $@
+src/%.vo: src/%.v
+	coqc -q -Q . Tricks $< -o $@
 
-%.vo: %.v
-	coqc -q $< -o $@
+src/NoInit.vo: src/NoInit.v
+	coqc -q -Q . Tricks -noinit $< -o $@
+
+clean:
+	rm -f src/*.vo
